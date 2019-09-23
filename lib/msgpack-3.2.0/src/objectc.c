@@ -229,7 +229,7 @@ void msgpack_object_print(FILE* out, msgpack_object o)
             msgpack_object_print(out, p->val);
             ++p;
             for(; p < pend; ++p) {
-                fprintf(out, ", ");
+                fprintf(out, ",");
                 msgpack_object_print(out, p->key);
                 fprintf(out, "=>");
                 msgpack_object_print(out, p->val);
