@@ -52,7 +52,9 @@ COPY conf/fluent-bit.conf \
      conf/plugins.conf \
      /fluent-bit/etc/
 
-FROM gcr.io/distroless/cc
+# FROM gcr.io/distroless/cc
+FROM debian:stable-slim
+
 MAINTAINER Eduardo Silva <eduardo@treasure-data.com>
 LABEL Description="Fluent Bit docker image" Vendor="Fluent Organization" Version="1.1"
 
@@ -72,6 +74,10 @@ COPY --from=builder /lib/x86_64-linux-gnu/libgpg-error.so* /lib/x86_64-linux-gnu
 
 COPY --from=builder /fluent-bit /fluent-bit
 
+RUN sed -i 's#deb.debian.org#59.111.0.251#g' /etc/apt/sources.list && sed -i '/security.debian.org/s/^/# /g' /etc/apt/sources.list && apt-get update && \
+    apt-get install -y --no-install-recommends \
+      curl \
+      jq 
 #
 EXPOSE 2020
 
